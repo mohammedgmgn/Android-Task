@@ -6,5 +6,6 @@ open class BaseFragment: Fragment() {
 
     protected fun navigateToDeliveriesDetailsScreen() {
 
+
     }
 }
