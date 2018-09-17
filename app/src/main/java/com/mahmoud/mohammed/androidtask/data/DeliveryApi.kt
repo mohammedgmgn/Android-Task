@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface DeliveryApi {
-    @GET("deliveries")
+    @GET("/deliveries")
     fun getDeliveryList(@Query("offset" )start:Int, @Query("limit") limit:Int) : Single<List<Delivery>>
 
 }

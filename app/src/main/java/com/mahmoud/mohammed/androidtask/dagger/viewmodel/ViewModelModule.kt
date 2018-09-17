@@ -20,5 +20,5 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(DeliveryListViewModel::class)
-    abstract fun bindCryptoListViewModel(viewModel: DeliveryListViewModel) : ViewModel
+    abstract fun bindDeliveryListViewModel(viewModel: DeliveryListViewModel) : ViewModel
 }

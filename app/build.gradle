@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -20,6 +20,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    kapt { generateStubs = true }
+
+
 }
 
 dependencies {
@@ -38,6 +41,10 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     testImplementation "org.mockito:mockito-core:2.19.0"
+
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+    androidTestImplementation "android.arch.core:core-testing:1.1.1"
+
     androidTestImplementation 'org.mockito:mockito-android:2.18.0'
     //noinspection GradleCompatible
     implementation 'com.android.support:design:27.1.1'
@@ -66,6 +73,11 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.15'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    kaptTest 'com.google.dagger:dagger-compiler:2.17'
+
+    implementation 'com.google.dagger:dagger:2.17'   // at this time you can use 2.13 if I remember correctly
+    provided 'javax.annotation:jsr250-api:1.0'
+
 
 //testing
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

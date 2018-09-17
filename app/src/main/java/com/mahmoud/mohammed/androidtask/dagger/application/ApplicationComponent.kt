@@ -1,10 +1,10 @@
 package com.mahmoud.mohammed.androidtask.dagger.application
 
-import com.antonicastejon.cryptodata.CryptoApplication
-import com.antonicastejon.cryptodata.presentation.main.di.MainActivityModule
+import com.mahmoud.mohammed.androidtask.MyApplication
 import com.mahmoud.mohammed.androidtask.dagger.*
 import com.mahmoud.mohammed.androidtask.dagger.viewmodel.ViewModelFactoryModule
 import com.mahmoud.mohammed.androidtask.dagger.viewmodel.ViewModelModule
+import com.mahmoud.mohammed.androidtask.presentation.activities.DeliveriesActivityModule
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
@@ -19,8 +19,8 @@ import javax.inject.Singleton
         RepositoryModule::class,
         UseCasesModule::class,
         ViewModelModule::class,
-        MainActivityModule::class
+        DeliveriesActivityModule::class
         ))
 interface ApplicationComponent {
-    fun inject(app: CryptoApplication)
+    fun inject(app: MyApplication)
 }

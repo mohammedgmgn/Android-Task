@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask.presentation
+package com.mahmoud.mohammed.androidtask.presentation.fragments
 
 
 import android.content.Context
