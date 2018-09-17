@@ -17,14 +17,8 @@ const val SCHEDULER_MAIN_THREAD = "mainThread"
 const val SCHEDULER_IO = "io"
 
 @Module
-class ApplicationModule constructor(context: Context) {
-    private val appContext = context.applicationContext
+class ApplicationModule {
 
-    @Singleton
-    @Provides
-    fun provideAppContext(): Context {
-        return appContext
-    }
 
     @Provides
     @Named(SCHEDULER_MAIN_THREAD)
@@ -33,11 +27,5 @@ class ApplicationModule constructor(context: Context) {
     @Provides
     @Named(SCHEDULER_IO)
     fun provideIoScheduler() : Scheduler = Schedulers.io()
-
-    @Singleton
-    @Provides
-    fun provideImageLoader(context: Context) : ImageLoader {
-        return PicassoImageLoader(Picasso.with(context))
-    }
 
 }

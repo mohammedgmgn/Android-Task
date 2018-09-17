@@ -2,6 +2,7 @@ package com.mahmoud.mohammed.androidtask
 
 import android.app.Activity
 import android.app.Application
+import com.mahmoud.mohammed.androidtask.dagger.NetworkModule
 import com.mahmoud.mohammed.androidtask.dagger.application.ApplicationModule
 import com.mahmoud.mohammed.androidtask.dagger.application.DaggerApplicationComponent
 import dagger.android.AndroidInjector
@@ -22,7 +23,8 @@ class MyApplication : Application(), HasActivityInjector {
          /*  DaggerApplicationComponent.create()
                 .inject(this)*/
 
-        DaggerApplicationComponent.builder().applicationModule(ApplicationModule(applicationContext)).build().inject(this)
+        DaggerApplicationComponent.builder()
+                .networkModule(NetworkModule(applicationContext)).build().inject(this)
     }
 
     override fun activityInjector(): AndroidInjector<Activity> = dispatchingActivityInjector
