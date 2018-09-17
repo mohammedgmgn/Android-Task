@@ -9,12 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.mahmoud.mohammed.androidtask.R
+import com.mahmoud.mohammed.androidtask.base.BaseFragment
 import dagger.android.support.AndroidSupportInjection
 
 fun newDeliveriesListFragment() = DeliveriesListFragment()
 val DELIVERIES_LIST_FRAGMENT_TAG = DeliveriesListFragment::class.java.name
 
-class DeliveriesListFragment : Fragment() {
+class DeliveriesListFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
