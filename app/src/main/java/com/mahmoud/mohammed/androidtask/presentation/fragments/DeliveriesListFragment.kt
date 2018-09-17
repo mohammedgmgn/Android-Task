@@ -1,6 +1,4 @@
 package com.mahmoud.mohammed.androidtask.presentation.fragments
-
-
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -97,13 +95,12 @@ class DeliveriesListFragment : Fragment() {
 
     private fun initializeRecyclerView(view:View) {
         recyclerView= view.findViewById(R.id.recyclerView_id);
-        val gridLayoutManager = GridLayoutManager(activity,2)
-        recyclerView.apply {
-            layoutManager = gridLayoutManager
-            recyclerView.adapter = deliveryListAdapter
-            addOnScrollListener(OnScrollListener(gridLayoutManager))
-        }
+        val vLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
+        recyclerView.apply {
+            recyclerView.layoutManager=vLayoutManager
+            recyclerView.adapter = deliveryListAdapter
+            addOnScrollListener(OnScrollListener(vLayoutManager)) }
     }
     private fun loadNextPage() {
         deliveryListAdapter.addLoadingViewFooter()

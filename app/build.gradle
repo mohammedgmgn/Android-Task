@@ -44,6 +44,7 @@ dependencies {
 
     testImplementation 'android.arch.core:core-testing:1.1.1'
     androidTestImplementation "android.arch.core:core-testing:1.1.1"
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     androidTestImplementation 'org.mockito:mockito-android:2.18.0'
     //noinspection GradleCompatible

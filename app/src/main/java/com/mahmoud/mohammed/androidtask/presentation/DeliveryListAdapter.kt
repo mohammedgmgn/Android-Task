@@ -38,10 +38,12 @@ class DeliveryListAdapter constructor(private val imageLoader: ImageLoader) : Pa
             itemView.apply {
 
                 item.imageUrl?.let {
-                    imageLoader.load(it, image_id)
+                    imageLoader.load(it, delivery_image)
                 }
-                address_id.text=item.description
+                description_tv_id.text=item.description
+                address_tv_id.text=item.address
             }
+
         }
 
 
