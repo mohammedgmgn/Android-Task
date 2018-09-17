@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask
+package com.mahmoud.mohammed.androidtask.common
 
 import org.mockito.Mockito
 import org.mockito.stubbing.OngoingStubbing

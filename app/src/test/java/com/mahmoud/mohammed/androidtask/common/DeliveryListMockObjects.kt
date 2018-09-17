@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask
+package com.mahmoud.mohammed.androidtask.common
 
 import com.mahmoud.mohammed.androidtask.data.model.Delivery
 import com.mahmoud.mohammed.androidtask.data.model.Location

@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask
+package com.mahmoud.mohammed.androidtask.use_cases
 
 import com.mahmoud.mohammed.androidtask.data.DeliveryRepository
 import io.reactivex.Single
@@ -6,9 +6,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.mahmoud.mohammed.androidtask.common.deliveryToPOJOmodel
+import com.mahmoud.mohammed.androidtask.common.deliveryViewModelFrom
+import com.mahmoud.mohammed.androidtask.common.mock
+import com.mahmoud.mohammed.androidtask.common.whenever
 import com.mahmoud.mohammed.androidtask.domain.DeliveryListInteractor
-import org.mockito.Mock
-import org.mockito.Mockito.mock
 
 class DeliveryListUseCasesUnitTest {
     @Rule
