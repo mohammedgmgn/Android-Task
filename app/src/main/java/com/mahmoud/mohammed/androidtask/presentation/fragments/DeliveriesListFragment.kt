@@ -113,7 +113,6 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
         } //?: viewModel.updateDeliveryList()
     }
 
-
     private fun observeViewModel() {
         viewModel.stateLiveData.observe(this, stateObserver)
     }
@@ -124,7 +123,6 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
         val view = inflater.inflate(R.layout.fragment_deliveries_list, container, false)
         initializeToolbar(view)
         initializeRecyclerView(view)
-        setNetworkStateReceiver()
         initializeSwipeToRefreshView(view)
 
         return view
@@ -161,6 +159,17 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
         override fun loadMoreItems() = loadNextPage()
         override fun getTotalPageCount() = LIMIT_DELIVERY_LIST
         override fun isLastPage() = isLastPage
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setNetworkStateReceiver()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkStateReceiver!!.removeListener(this)
+
     }
 
     //function that sets the network state receiver to the activity
