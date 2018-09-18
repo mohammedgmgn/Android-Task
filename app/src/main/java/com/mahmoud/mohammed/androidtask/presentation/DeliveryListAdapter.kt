@@ -6,20 +6,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mahmoud.mohammed.androidtask.R
 import com.mahmoud.mohammed.androidtask.common.imagehelper.ImageLoader
-import com.mahmoud.mohammed.androidtask.domain.DeliveryListUseCase
 import com.mahmoud.mohammed.androidtask.domain.DeliveryViewModel
 import com.mahmoud.mohammed.androidtask.domain.emptyDeliveryViewModel
 import kotlinx.android.synthetic.main.delivery_list_item.view.*
 
 
-class DeliveryListAdapter constructor(private val imageLoader: ImageLoader) : PaginationAdapter<DeliveryViewModel>() {
+class DeliveryListAdapter constructor(private val imageLoader: ImageLoader,
+                                      private val onDeliverySelected: (DeliveryViewModel, View) -> Unit) : PaginationAdapter<DeliveryViewModel>() {
     override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.delivery_list_item, parent, false)
         return DeliveryViewHolder(view)
     }
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        if (holder is DeliveryViewHolder) holder.bind(dataList[position],imageLoader)
+        if (holder is DeliveryViewHolder) holder.bind(dataList[position],imageLoader,onDeliverySelected)
     }
     fun removeAt(position: Int) {
         dataList.removeAt(position)
@@ -37,7 +37,8 @@ class DeliveryListAdapter constructor(private val imageLoader: ImageLoader) : Pa
 
     class DeliveryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: DeliveryViewModel, imageLoader: ImageLoader) {
+        fun bind(item: DeliveryViewModel, imageLoader: ImageLoader, listener:
+        (DeliveryViewModel, View) -> Unit) {
 
             itemView.apply {
 
@@ -46,6 +47,8 @@ class DeliveryListAdapter constructor(private val imageLoader: ImageLoader) : Pa
                 }
                 description_tv_id.text=item.description
                 address_tv_id.text=item.address
+                setOnClickListener { listener(item, itemView) }
+
             }
 
         }

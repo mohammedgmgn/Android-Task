@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask.presentation.activities
+package com.mahmoud.mohammed.androidtask.presentation.activities.deliveries
 
 import android.app.Activity
 import dagger.Binds
