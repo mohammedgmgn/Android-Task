@@ -8,6 +8,7 @@ interface DeliveryListUseCase {
     fun getDeliveryListBy(page: Int): Single<List<DeliveryViewModel>>
 
 }
+val emptyDeliveryViewModel = DeliveryViewModel()
 
 data class DeliveryViewModel(val id: Int,
                              val description: String,

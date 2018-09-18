@@ -26,11 +26,8 @@ class DeliveriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar_main))
-
         if (savedInstanceState == null)
             replaceFragment(R.id.container, deliveryListFragment, DELIVERIES_LIST_FRAGMENT_TAG)
-        title = getString(R.string.main_title)
 
 
     }
