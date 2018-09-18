@@ -9,7 +9,7 @@ Used Kotlin programming language  for Applying the following topics
 - ViewModels LiveData
 
  ## Features:
-1. displaying list of items with its details 
+1. Displaying list of items with its details 
 2. Loading More feature 
 3. Cacheing response.
 
