@@ -12,6 +12,7 @@ Used Kotlin programming language  for Applying the following topics
 1. Displaying list of items with its details 
 2. Loading More feature 
 3. Cacheing response.
+4. swipe to delete item
 
 ### Used libraries: ###
 - [RxJava2](https://github.com/ReactiveX/RxJava)
