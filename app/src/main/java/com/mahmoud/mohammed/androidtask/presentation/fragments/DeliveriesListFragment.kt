@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
+import android.widget.SimpleAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -33,7 +35,7 @@ import javax.inject.Inject
 fun newDeliveriesListFragment() = DeliveriesListFragment()
 val DELIVERIES_LIST_FRAGMENT_TAG = DeliveriesListFragment::class.java.name
 
-class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateReceiverListener {
+class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateReceiverListener  {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -146,6 +148,16 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
             recyclerView.adapter = deliveryListAdapter
             addOnScrollListener(OnScrollListener(vLayoutManager))
         }
+
+
+        val swipeHandler = object : SwipeToDeleteCallback(context!!) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = recyclerView.adapter as DeliveryListAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
 
     }

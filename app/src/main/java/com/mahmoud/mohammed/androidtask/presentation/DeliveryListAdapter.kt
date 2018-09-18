@@ -21,6 +21,10 @@ class DeliveryListAdapter constructor(private val imageLoader: ImageLoader) : Pa
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (holder is DeliveryViewHolder) holder.bind(dataList[position],imageLoader)
     }
+    fun removeAt(position: Int) {
+        dataList.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     override fun addLoadingViewFooter() {
         addLoadingViewFooter(emptyDeliveryViewModel)
