@@ -55,6 +55,7 @@ class NetworkModule constructor(context:Context)   {
                 .addInterceptor { chain ->
                     var request = chain.request()
                     request = if (hasNetwork(context)!!)
+                        // setting  5 Mb Cabacity
                         request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
                     else
                         request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()

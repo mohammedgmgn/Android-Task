@@ -26,6 +26,7 @@ class DeliveryListViewModel @Inject constructor(private val deliveryListUseCases
         val pageNum = obtainCurrentPageNum()
         stateLiveData.value = if (pageNum == 0)
             LoadingState(pageNum, false, obtainCurrentData())
+
         else
             PaginatingState(pageNum, false, obtainCurrentData())
         getDeliveryList(pageNum)

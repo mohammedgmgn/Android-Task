@@ -1,12 +1,17 @@
 package com.mahmoud.mohammed.androidtask.presentation.fragments
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +19,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mahmoud.mohammed.androidtask.R
+import com.mahmoud.mohammed.androidtask.common.ConnectionStateMonitor
+import com.mahmoud.mohammed.androidtask.common.getCachSize
 import com.mahmoud.mohammed.androidtask.common.hasNetwork
 import com.mahmoud.mohammed.androidtask.common.imagehelper.ImageLoader
 import com.mahmoud.mohammed.androidtask.domain.DeliveryViewModel
@@ -46,49 +53,57 @@ class DeliveriesListFragment : Fragment() {
             isLastPage = state.loadedAllItems
             when (state) {
                 is DefaultState -> {
-                    isLoading = false
-                    swipeRefreshLayout.isRefreshing = false
-                    updateListData(it.data)
-
+                    handleDefaultState(it.data)
                 }
                 is LoadingState -> {
-                    swipeRefreshLayout.isRefreshing = true
-                    isLoading = true
+                    handleLoadingState()
                 }
                 is PaginatingState -> {
-                    isLoading = true
+                    handlePaginatingState()
                 }
                 is ErrorState -> {
-                    // handleErrorState(it.data)
-                    isLoading = false
-                    swipeRefreshLayout.isRefreshing = false
-                    deliveryListAdapter.removeLoadingViewFooter()
+                    handleErrorState()
                 }
             }
         }
     }
 
+    private fun handleErrorState() {
+        Toast.makeText(context, "Something went Wrong", Toast.LENGTH_SHORT).show()
+        isLoading = false
+        swipeRefreshLayout.isRefreshing = false
+        deliveryListAdapter.removeLoadingViewFooter()
+    }
+
+    private fun handlePaginatingState() {
+        isLoading = true
+
+    }
+
+    private fun handleLoadingState() {
+        swipeRefreshLayout.isRefreshing = true
+        isLoading = true
+
+    }
+
+    private fun handleDefaultState(data: List<DeliveryViewModel>) {
+        isLoading = false
+        swipeRefreshLayout.isRefreshing = false
+        updateListData(data)
+
+
+    }
+
     private fun updateListData(data: List<DeliveryViewModel>) {
-      /*  if(recyclerView.visibility==GONE)
+        /*  if(recyclerView.visibility==GONE)
         {
             recyclerView.setVisibility(View.VISIBLE);
             empty_view.setVisibility(View.GONE);
         }*/
-            deliveryListAdapter.updateData(data)
+        deliveryListAdapter.updateData(data)
 
 
     }
-/*
-    private fun handleErrorState(data: List<DeliveryViewModel>) {
-        if (data.isEmpty()) {
-            recyclerView.setVisibility(View.GONE);
-            empty_view.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            empty_view.setVisibility(View.GONE);
-        }
-    }
-*/
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -101,20 +116,9 @@ class DeliveriesListFragment : Fragment() {
         observeViewModel()
         savedInstanceState?.let {
             viewModel.restoreDeliveryList()
-        } ?: viewModel.updateDeliveryList()
+        } //?: viewModel.updateDeliveryList()
     }
 
-    private fun checkConnection(savedInstanceState: Bundle?) {
-        if (!hasNetwork(context!!)!! && savedInstanceState == null) {
-            recyclerView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-
-
-        }
-    }
 
     private fun observeViewModel() {
         viewModel.stateLiveData.observe(this, stateObserver)
@@ -127,7 +131,6 @@ class DeliveriesListFragment : Fragment() {
         initializeToolbar(view)
         initializeRecyclerView(view)
         initializeSwipeToRefreshView(view)
-        //checkConnection(savedInstanceState)
 
         return view
     }
@@ -165,5 +168,42 @@ class DeliveriesListFragment : Fragment() {
         override fun isLastPage() = isLastPage
     }
 
+    private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val notConnected = intent.getBooleanExtra(ConnectivityManager
+                    .EXTRA_NO_CONNECTIVITY, false)
+            if (notConnected) {
+                Toast.makeText(context,getCachSize(context).toString(), Toast.LENGTH_SHORT).show()
+                if (getCachSize(context)==0L)
+                {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+
+            } else {
+                if(recyclerView.visibility==GONE){
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+                viewModel.updateDeliveryList()
+                Toast.makeText(context, "connected", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+
+
+    }
+    override fun onStart() {
+        super.onStart()
+        activity!!.registerReceiver(broadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activity!!.unregisterReceiver(broadcastReceiver)
+    }
 
 }

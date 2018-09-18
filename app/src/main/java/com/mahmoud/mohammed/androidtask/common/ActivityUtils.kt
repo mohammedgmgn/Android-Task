@@ -1,5 +1,6 @@
 package com.mahmoud.mohammed.androidtask.common
 
+import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -19,4 +20,13 @@ fun hasNetwork(context: Context): Boolean? {
     if (activeNetwork != null && activeNetwork.isConnected)
         isConnected = true
     return isConnected
+}
+fun getCachSize(context: Context):Long{
+    var size: Long = 0
+    val cacheDirectory = context.getCacheDir()
+    val files = cacheDirectory.listFiles()
+    for (f in files) {
+        size = size + f.length()
+    }
+return size
 }

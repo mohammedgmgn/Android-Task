@@ -75,7 +75,7 @@ dependencies {
     kaptTest 'com.google.dagger:dagger-compiler:2.17'
 
     implementation 'com.google.dagger:dagger:2.17'   // at this time you can use 2.13 if I remember correctly
-    provided 'javax.annotation:jsr250-api:1.0'
+    compileOnly 'javax.annotation:jsr250-api:1.0'
 
 
 //testing
