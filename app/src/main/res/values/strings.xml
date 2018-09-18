@@ -7,5 +7,6 @@
     <string name="default_description">Deliver documents to Andrio</string>
     <string name="default_location">Cheung Sha Wan</string>
     <string name="no_data_available">Pull down to refresh</string>
+    <string name="failed_to_refresh">Failed To Refresh</string>
 
 </resources>

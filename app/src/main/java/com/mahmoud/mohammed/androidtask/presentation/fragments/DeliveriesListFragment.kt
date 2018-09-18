@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.mahmoud.mohammed.androidtask.R
 import com.mahmoud.mohammed.androidtask.common.NetworkStateReceiver
 import com.mahmoud.mohammed.androidtask.common.getCachSize
@@ -47,7 +48,6 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyView: TextView
     private var networkStateReceiver: NetworkStateReceiver? = null
-
     private val stateObserver = Observer<DeliveryListState> { state ->
         state?.let {
             isLastPage = state.loadedAllItems
@@ -69,13 +69,14 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
     }
 
     private fun handleErrorState() {
-        Toast.makeText(context, "Something went Wrong", Toast.LENGTH_SHORT).show()
+        showErrorMessage()
         isLoading = false
         swipeRefreshLayout.isRefreshing = false
         deliveryListAdapter.removeLoadingViewFooter()
     }
 
     private fun handlePaginatingState() {
+
         isLoading = true
 
     }
@@ -86,6 +87,9 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
 
     }
 
+    private fun showErrorMessage(){
+     Toast.makeText(context,R.string.failed_to_refresh,Toast.LENGTH_SHORT).show()
+    }
     private fun handleDefaultState(data: List<DeliveryViewModel>) {
         isLoading = false
         swipeRefreshLayout.isRefreshing = false
@@ -121,6 +125,7 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_deliveries_list, container, false)
+
         initializeToolbar(view)
         initializeRecyclerView(view)
         initializeSwipeToRefreshView(view)
@@ -188,12 +193,10 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
             emptyView.setVisibility(View.GONE);
         }
         viewModel.updateDeliveryList()
-        Toast.makeText(context, "connected", Toast.LENGTH_SHORT).show()
 
     }
 
     override fun onNetworkUnavailable() {
-        Toast.makeText(context, getCachSize(context!!).toString(), Toast.LENGTH_SHORT).show()
         if (getCachSize(context!!) == 0L) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
