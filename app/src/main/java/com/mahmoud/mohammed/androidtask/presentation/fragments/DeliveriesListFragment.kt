@@ -1,6 +1,5 @@
 package com.mahmoud.mohammed.androidtask.presentation.fragments
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -19,9 +18,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mahmoud.mohammed.androidtask.R
-import com.mahmoud.mohammed.androidtask.common.ConnectionStateMonitor
+import com.mahmoud.mohammed.androidtask.common.NetworkStateReceiver
 import com.mahmoud.mohammed.androidtask.common.getCachSize
-import com.mahmoud.mohammed.androidtask.common.hasNetwork
 import com.mahmoud.mohammed.androidtask.common.imagehelper.ImageLoader
 import com.mahmoud.mohammed.androidtask.domain.DeliveryViewModel
 import com.mahmoud.mohammed.androidtask.domain.LIMIT_DELIVERY_LIST
@@ -34,7 +32,8 @@ import javax.inject.Inject
 fun newDeliveriesListFragment() = DeliveriesListFragment()
 val DELIVERIES_LIST_FRAGMENT_TAG = DeliveriesListFragment::class.java.name
 
-class DeliveriesListFragment : Fragment() {
+class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateReceiverListener {
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -47,6 +46,7 @@ class DeliveriesListFragment : Fragment() {
     private var isLastPage = false
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyView: TextView
+    private var networkStateReceiver: NetworkStateReceiver? = null
 
     private val stateObserver = Observer<DeliveryListState> { state ->
         state?.let {
@@ -95,14 +95,7 @@ class DeliveriesListFragment : Fragment() {
     }
 
     private fun updateListData(data: List<DeliveryViewModel>) {
-        /*  if(recyclerView.visibility==GONE)
-        {
-            recyclerView.setVisibility(View.VISIBLE);
-            empty_view.setVisibility(View.GONE);
-        }*/
         deliveryListAdapter.updateData(data)
-
-
     }
 
     override fun onAttach(context: Context?) {
@@ -112,6 +105,7 @@ class DeliveriesListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DeliveryListViewModel::class.java)
         observeViewModel()
         savedInstanceState?.let {
@@ -130,6 +124,7 @@ class DeliveriesListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_deliveries_list, container, false)
         initializeToolbar(view)
         initializeRecyclerView(view)
+        setNetworkStateReceiver()
         initializeSwipeToRefreshView(view)
 
         return view
@@ -168,42 +163,35 @@ class DeliveriesListFragment : Fragment() {
         override fun isLastPage() = isLastPage
     }
 
-    private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val notConnected = intent.getBooleanExtra(ConnectivityManager
-                    .EXTRA_NO_CONNECTIVITY, false)
-            if (notConnected) {
-                Toast.makeText(context,getCachSize(context).toString(), Toast.LENGTH_SHORT).show()
-                if (getCachSize(context)==0L)
-                {
-                    recyclerView.setVisibility(View.GONE);
-                    emptyView.setVisibility(View.VISIBLE);
-                } else {
-                    recyclerView.setVisibility(View.VISIBLE);
-                    emptyView.setVisibility(View.GONE);
-                }
+    //function that sets the network state receiver to the activity
+    private fun setNetworkStateReceiver() {
+        networkStateReceiver = NetworkStateReceiver(this.context!!)
+        networkStateReceiver!!.addListener(this)
+        activity!!.applicationContext.registerReceiver(networkStateReceiver,
+                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
 
-            } else {
-                if(recyclerView.visibility==GONE){
-                    recyclerView.setVisibility(View.VISIBLE);
-                    emptyView.setVisibility(View.GONE);
-                }
-                viewModel.updateDeliveryList()
-                Toast.makeText(context, "connected", Toast.LENGTH_SHORT).show()
+    }
 
-            }
+    override fun onNetworkAvailable() {
+
+        if (recyclerView.visibility == GONE) {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
         }
-
+        viewModel.updateDeliveryList()
+        Toast.makeText(context, "connected", Toast.LENGTH_SHORT).show()
 
     }
-    override fun onStart() {
-        super.onStart()
-        activity!!.registerReceiver(broadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-    }
 
-    override fun onStop() {
-        super.onStop()
-        activity!!.unregisterReceiver(broadcastReceiver)
+    override fun onNetworkUnavailable() {
+        Toast.makeText(context, getCachSize(context!!).toString(), Toast.LENGTH_SHORT).show()
+        if (getCachSize(context!!) == 0L) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
     }
 
 }
