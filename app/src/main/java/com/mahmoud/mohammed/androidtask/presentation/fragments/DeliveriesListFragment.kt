@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.mahmoud.mohammed.androidtask.R
 import com.mahmoud.mohammed.androidtask.common.NetworkStateReceiver
 import com.mahmoud.mohammed.androidtask.common.getCachSize
