@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask.presentation.activities
+package com.mahmoud.mohammed.androidtask.presentation.activities.deliveries
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

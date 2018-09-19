@@ -1,7 +1,6 @@
 package com.mahmoud.mohammed.androidtask.presentation.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -11,13 +10,14 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mahmoud.mohammed.androidtask.R
+import com.mahmoud.mohammed.androidtask.base.BaseFragment
 import com.mahmoud.mohammed.androidtask.common.NetworkStateReceiver
 import com.mahmoud.mohammed.androidtask.common.getCachSize
 import com.mahmoud.mohammed.androidtask.common.imagehelper.ImageLoader
@@ -32,7 +32,7 @@ import javax.inject.Inject
 fun newDeliveriesListFragment() = DeliveriesListFragment()
 val DELIVERIES_LIST_FRAGMENT_TAG = DeliveriesListFragment::class.java.name
 
-class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateReceiverListener {
+class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkStateReceiverListener  {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -40,8 +40,8 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
     private lateinit var viewModel: DeliveryListViewModel
     @Inject
     lateinit var imageLoader: ImageLoader
-
-    private val deliveryListAdapter by lazy { DeliveryListAdapter(imageLoader) }
+    private lateinit var deliveryListAdapter:DeliveryListAdapter
+  //  private val deliveryListAdapter by lazy { DeliveryListAdapter(imageLoader,) }
     private var isLoading = false
     private var isLastPage = false
     private lateinit var recyclerView: RecyclerView
@@ -137,6 +137,9 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
     }
 
     private fun initializeRecyclerView(view: View) {
+        deliveryListAdapter= DeliveryListAdapter(imageLoader) { delivery, view ->
+            navigateToDeliveriesDetailsScreen(delivery)
+        }
         recyclerView = view.findViewById(R.id.recyclerView_id)
         emptyView = view.findViewById(R.id.empty_view)
         val vLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -145,6 +148,16 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
             recyclerView.adapter = deliveryListAdapter
             addOnScrollListener(OnScrollListener(vLayoutManager))
         }
+
+
+        val swipeHandler = object : SwipeToDeleteCallback(context!!) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = recyclerView.adapter as DeliveryListAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
 
     }
@@ -186,7 +199,6 @@ class DeliveriesListFragment : Fragment(), NetworkStateReceiver.NetworkStateRece
     }
 
     override fun onNetworkAvailable() {
-
         if (recyclerView.visibility == GONE) {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
