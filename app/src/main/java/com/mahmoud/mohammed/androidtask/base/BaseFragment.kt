@@ -1,9 +1,8 @@
 package com.mahmoud.mohammed.androidtask.base
 
-import android.app.ActivityOptions
 import androidx.fragment.app.Fragment
 import com.mahmoud.mohammed.androidtask.domain.DeliveryViewModel
-import com.mahmoud.mohammed.androidtask.presentation.activities.detail.DeliveryDetailsActivity
+import com.mahmoud.mohammed.androidtask.presentation.detail.DeliveryDetailsActivity
 
 open class BaseFragment: Fragment() {
 

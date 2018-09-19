@@ -1,12 +1,12 @@
-package com.mahmoud.mohammed.androidtask.presentation.activities.deliveries
+package com.mahmoud.mohammed.androidtask.presentation.deliveries.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.mahmoud.mohammed.androidtask.R
 import com.mahmoud.mohammed.androidtask.common.replaceFragment
-import com.mahmoud.mohammed.androidtask.presentation.fragments.DELIVERIES_LIST_FRAGMENT_TAG
-import com.mahmoud.mohammed.androidtask.presentation.fragments.newDeliveriesListFragment
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.fragments.DELIVERIES_LIST_FRAGMENT_TAG
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.fragments.newDeliveriesListFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class DeliveriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-    val deliveryListFragment by lazy { newDeliveriesListFragment()}
+    val deliveryListFragment by lazy { newDeliveriesListFragment() }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return fragmentInjector

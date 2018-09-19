@@ -1,6 +1,7 @@
-package com.mahmoud.mohammed.androidtask.presentation.fragments
+package com.mahmoud.mohammed.androidtask.presentation.deliveries.dagger
 
 import androidx.fragment.app.Fragment
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.fragments.DeliveriesListFragment
 import dagger.Binds
 import dagger.Module
 import dagger.Subcomponent

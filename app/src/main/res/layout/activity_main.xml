@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.activities.deliveries.DeliveriesActivity"
+    tools:context=".presentation.deliveries.activities.DeliveriesActivity"
     android:id="@+id/container"
     android:background="@android:color/white">
 

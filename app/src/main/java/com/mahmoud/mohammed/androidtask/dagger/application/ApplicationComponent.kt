@@ -4,7 +4,7 @@ import com.mahmoud.mohammed.androidtask.MyApplication
 import com.mahmoud.mohammed.androidtask.dagger.*
 import com.mahmoud.mohammed.androidtask.dagger.viewmodel.ViewModelFactoryModule
 import com.mahmoud.mohammed.androidtask.dagger.viewmodel.ViewModelModule
-import com.mahmoud.mohammed.androidtask.presentation.activities.deliveries.DeliveriesActivityModule
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.dagger.DeliveriesActivityModule
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton

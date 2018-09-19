@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask.presentation.fragments
+package com.mahmoud.mohammed.androidtask.presentation.deliveries.fragments
 
 import android.content.Context
 import android.content.IntentFilter
@@ -23,7 +23,11 @@ import com.mahmoud.mohammed.androidtask.common.getCachSize
 import com.mahmoud.mohammed.androidtask.common.imagehelper.ImageLoader
 import com.mahmoud.mohammed.androidtask.domain.DeliveryViewModel
 import com.mahmoud.mohammed.androidtask.domain.LIMIT_DELIVERY_LIST
-import com.mahmoud.mohammed.androidtask.presentation.*
+import com.mahmoud.mohammed.androidtask.presentation.common.DeliveryListAdapter
+import com.mahmoud.mohammed.androidtask.presentation.common.PaginationScrollListener
+import com.mahmoud.mohammed.androidtask.presentation.common.SwipeToDeleteCallback
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.activities.*
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.viewmodels.DeliveryListViewModel
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_deliveries_list.*
 import kotlinx.android.synthetic.main.fragment_deliveries_list.view.*
@@ -40,7 +44,7 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     private lateinit var viewModel: DeliveryListViewModel
     @Inject
     lateinit var imageLoader: ImageLoader
-    private lateinit var deliveryListAdapter:DeliveryListAdapter
+    private lateinit var deliveryListAdapter: DeliveryListAdapter
   //  private val deliveryListAdapter by lazy { DeliveryListAdapter(imageLoader,) }
     private var isLoading = false
     private var isLastPage = false
