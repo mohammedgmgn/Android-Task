@@ -21,3 +21,8 @@ Used Kotlin programming language  for Applying the following topics
 - [Android architecture components](https://developer.android.com/topic/libraries/architecture/index.html)
 - [OkHttp](https://github.com/square/okhttp)
 - [Picasso](https://github.com/square/picasso)
+
+
+ ## Future Work:
+ 1- Customize Tablet View 
+ 2- Implement ios version with the Whole requirments Using (Flutter) 
