@@ -9,7 +9,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -73,7 +72,7 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     }
 
     private fun handleErrorState() {
-        showErrorMessage()
+        showMessage(getString(R.string.failed_to_refresh))
         isLoading = false
         swipeRefreshLayout.isRefreshing = false
         deliveryListAdapter.removeLoadingViewFooter()
@@ -91,9 +90,6 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
 
     }
 
-    private fun showErrorMessage() {
-        Toast.makeText(context, R.string.failed_to_refresh, Toast.LENGTH_SHORT).show()
-    }
 
     private fun handleDefaultState(data: List<DeliveryViewModel>) {
         isLoading = false
@@ -133,11 +129,11 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
         initializeToolbar(view)
         initializeRecyclerView(view)
         initializeSwipeToRefreshView(view)
-        if (hasNetwork(context!!)!!) {
+      /*  if (hasNetwork(context!!)!!) {
             handleConnectionMode()
         } else {
             handleDisconnectionMode()
-        }
+        }*/
         return view
     }
 
@@ -224,13 +220,14 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     }
 
     private fun handleDisconnectionMode() {
-        if (deliveryListAdapter.getListSize()==0) {
+        if (getCachSize(this.context!!)==0L) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
+        showMessage(getString(R.string.check_connection_message));
     }
 
 }

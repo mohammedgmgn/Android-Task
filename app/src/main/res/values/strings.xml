@@ -11,5 +11,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="default_address">Cheung Sha Wan</string>
     <string name="delivery_detail">Delivery Detail</string>
+    <string name="check_connection_message">Check Your Internet</string>
 
 </resources>
