@@ -186,7 +186,7 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     override fun onStop() {
         super.onStop()
         networkStateReceiver!!.removeListener(this)
-
+        activity!!.applicationContext.unregisterReceiver(networkStateReceiver)
     }
 
     //function that sets the network state receiver to the activity
