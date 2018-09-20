@@ -42,7 +42,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textSize="15sp"
+                android:textSize="@dimen/default_text_size"
                 android:visibility="gone"
                 android:text="@string/no_data_available" />
 

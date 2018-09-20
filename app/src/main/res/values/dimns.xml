@@ -2,8 +2,10 @@
 <resources>
     <dimen name="text_size">16sp</dimen>
     <dimen name="constrain_hight">130dp</dimen>
+    <dimen name="default_text_size">15sp</dimen>
 
     <dimen name="default_dimensions">50dp</dimen>
     <dimen name="default_margine">15dp</dimen>
+    <dimen name="default_padding">5dp</dimen>
 
 </resources>
