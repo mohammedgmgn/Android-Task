@@ -34,7 +34,9 @@ class DeliveryListAdapter constructor(private val imageLoader: ImageLoader,
         dataList = newData.toMutableList()
         notifyItemRangeInserted(fromIndex, newData.size)
     }
-
+fun getListSize ():Int{
+    return dataList.size
+}
     class DeliveryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: DeliveryViewModel, imageLoader: ImageLoader, listener:

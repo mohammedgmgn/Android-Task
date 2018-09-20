@@ -20,6 +20,7 @@ import com.mahmoud.mohammed.androidtask.R
 import com.mahmoud.mohammed.androidtask.base.BaseFragment
 import com.mahmoud.mohammed.androidtask.common.NetworkStateReceiver
 import com.mahmoud.mohammed.androidtask.common.getCachSize
+import com.mahmoud.mohammed.androidtask.common.hasNetwork
 import com.mahmoud.mohammed.androidtask.common.imagehelper.ImageLoader
 import com.mahmoud.mohammed.androidtask.domain.DeliveryViewModel
 import com.mahmoud.mohammed.androidtask.domain.LIMIT_DELIVERY_LIST
@@ -36,7 +37,7 @@ import javax.inject.Inject
 fun newDeliveriesListFragment() = DeliveriesListFragment()
 val DELIVERIES_LIST_FRAGMENT_TAG = DeliveriesListFragment::class.java.name
 
-class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkStateReceiverListener  {
+class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkStateReceiverListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -45,7 +46,7 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     @Inject
     lateinit var imageLoader: ImageLoader
     private lateinit var deliveryListAdapter: DeliveryListAdapter
-  //  private val deliveryListAdapter by lazy { DeliveryListAdapter(imageLoader,) }
+    //  private val deliveryListAdapter by lazy { DeliveryListAdapter(imageLoader,) }
     private var isLoading = false
     private var isLastPage = false
     private lateinit var recyclerView: RecyclerView
@@ -90,9 +91,10 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
 
     }
 
-    private fun showErrorMessage(){
-     Toast.makeText(context,R.string.failed_to_refresh,Toast.LENGTH_SHORT).show()
+    private fun showErrorMessage() {
+        Toast.makeText(context, R.string.failed_to_refresh, Toast.LENGTH_SHORT).show()
     }
+
     private fun handleDefaultState(data: List<DeliveryViewModel>) {
         isLoading = false
         swipeRefreshLayout.isRefreshing = false
@@ -128,11 +130,14 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_deliveries_list, container, false)
-
         initializeToolbar(view)
         initializeRecyclerView(view)
         initializeSwipeToRefreshView(view)
-
+        if (hasNetwork(context!!)!!) {
+            handleConnectionMode()
+        } else {
+            handleDisconnectionMode()
+        }
         return view
     }
 
@@ -141,7 +146,7 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     }
 
     private fun initializeRecyclerView(view: View) {
-        deliveryListAdapter= DeliveryListAdapter(imageLoader) { delivery, view ->
+        deliveryListAdapter = DeliveryListAdapter(imageLoader) { delivery, view ->
             navigateToDeliveriesDetailsScreen(delivery)
         }
         recyclerView = view.findViewById(R.id.recyclerView_id)
@@ -203,16 +208,23 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     }
 
     override fun onNetworkAvailable() {
+        handleConnectionMode()
+    }
+
+    private fun handleConnectionMode() {
         if (recyclerView.visibility == GONE) {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
         viewModel.updateDeliveryList()
-
     }
 
     override fun onNetworkUnavailable() {
-        if (getCachSize(context!!) == 0L) {
+        handleDisconnectionMode()
+    }
+
+    private fun handleDisconnectionMode() {
+        if (deliveryListAdapter.getListSize()==0) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
         } else {

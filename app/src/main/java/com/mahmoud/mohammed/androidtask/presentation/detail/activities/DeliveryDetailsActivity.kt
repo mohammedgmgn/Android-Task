@@ -51,7 +51,6 @@ class DeliveryDetailsActivity : AppCompatActivity(), HasSupportFragmentInjector 
         setSupportActionBar(toolbar)
         getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar()!!.setHomeButtonEnabled(true);
-
         toolbar.setNavigationOnClickListener {
             finish()
         }
