@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_size">16sp</dimen>
+    <dimen name="constrain_hight">130dp</dimen>
 
+    <dimen name="default_dimensions">50dp</dimen>
+    <dimen name="default_margine">15dp</dimen>
 
 </resources>

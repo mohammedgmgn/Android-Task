@@ -1,6 +1,6 @@
 package com.mahmoud.mohammed.androidtask.dagger.application
 
-import com.mahmoud.mohammed.androidtask.MyApplication
+import com.mahmoud.mohammed.androidtask.DeliveryApplication
 import com.mahmoud.mohammed.androidtask.dagger.NetworkModule
 import com.mahmoud.mohammed.androidtask.dagger.RepositoryModule
 import com.mahmoud.mohammed.androidtask.dagger.UseCasesModule
@@ -27,5 +27,5 @@ import javax.inject.Singleton
 
 ))
 interface ApplicationComponent {
-    fun inject(app: MyApplication)
+    fun inject(app: DeliveryApplication)
 }

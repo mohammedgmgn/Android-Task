@@ -9,5 +9,6 @@
     <string name="no_data_available">Pull down to refresh</string>
     <string name="failed_to_refresh">Failed To Refresh</string>
     <string name="title_activity_maps">Map</string>
+    <string name="default_address">Cheung Sha Wan</string>
 
 </resources>

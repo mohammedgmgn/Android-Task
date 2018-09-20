@@ -19,4 +19,5 @@ abstract class DeliveryDetailsModule {
     abstract fun bindDeliveriesActivityInjectorFactory(builder: DeliveryDetailsActivitySubcomponent.Builder)
             : AndroidInjector.Factory<out Activity>
 
+
 }
