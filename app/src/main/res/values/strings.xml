@@ -10,5 +10,6 @@
     <string name="failed_to_refresh">Failed To Refresh</string>
     <string name="title_activity_maps">Map</string>
     <string name="default_address">Cheung Sha Wan</string>
+    <string name="delivery_detail">Delivery Detail</string>
 
 </resources>
