@@ -20,5 +20,6 @@ abstract class DeliveryListFragmentModule {
     @Binds
     @IntoMap
     @FragmentKey(DeliveriesListFragment::class)
-    abstract fun bindDeliveryListFragmentInjectorFactory(builder: DeliveryListFragmentSubcomponent.Builder): AndroidInjector.Factory<out Fragment>
+    abstract fun bindDeliveryListFragmentInjectorFactory(builder: DeliveryListFragmentSubcomponent.Builder):
+            AndroidInjector.Factory<out Fragment>
 }

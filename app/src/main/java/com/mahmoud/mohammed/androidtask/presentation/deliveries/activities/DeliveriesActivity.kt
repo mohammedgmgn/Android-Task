@@ -28,7 +28,5 @@ class DeliveriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null)
             replaceFragment(R.id.container, deliveryListFragment, DELIVERIES_LIST_FRAGMENT_TAG)
-
-
     }
 }

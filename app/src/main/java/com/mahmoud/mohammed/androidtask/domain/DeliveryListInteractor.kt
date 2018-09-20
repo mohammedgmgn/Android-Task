@@ -1,6 +1,6 @@
 package com.mahmoud.mohammed.androidtask.domain
 
-import com.mahmoud.mohammed.androidtask.data.DeliveryRepository
+import com.mahmoud.mohammed.androidtask.data.remote.DeliveryRepository
 import com.mahmoud.mohammed.androidtask.data.model.Delivery
 import io.reactivex.Single
 
