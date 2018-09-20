@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask.presentation
+package com.mahmoud.mohammed.androidtask.presentation.common
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

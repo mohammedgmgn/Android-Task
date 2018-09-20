@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask.presentation
+package com.mahmoud.mohammed.androidtask.presentation.deliveries.viewmodels
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +11,7 @@ import com.mahmoud.mohammed.androidtask.dagger.application.SCHEDULER_IO
 import com.mahmoud.mohammed.androidtask.dagger.application.SCHEDULER_MAIN_THREAD
 import com.mahmoud.mohammed.androidtask.domain.DeliveryViewModel
 import com.mahmoud.mohammed.androidtask.domain.LIMIT_DELIVERY_LIST
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.activities.*
 
 class DeliveryListViewModel @Inject constructor(private val deliveryListUseCases: DeliveryListUseCase,
                                                 @Named(SCHEDULER_IO) val subscribeOnScheduler: Scheduler,
@@ -55,7 +56,8 @@ class DeliveryListViewModel @Inject constructor(private val deliveryListUseCases
 
     private fun onError(error: Throwable) {
         val pageNum = stateLiveData.value?.pageNum ?: 0
-        stateLiveData.value = ErrorState(error.message ?: "", pageNum,
+        stateLiveData.value = ErrorState(error.message
+                ?: "", pageNum,
                 obtainCurrentLoadedAllItems(), obtainCurrentData())
     }
 

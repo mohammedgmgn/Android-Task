@@ -1,6 +1,6 @@
-package com.mahmoud.mohammed.androidtask.presentation.activities.deliveries
+package com.mahmoud.mohammed.androidtask.presentation.deliveries.dagger
 
-import com.mahmoud.mohammed.androidtask.presentation.fragments.DeliveryListFragmentModule
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.activities.DeliveriesActivity
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 

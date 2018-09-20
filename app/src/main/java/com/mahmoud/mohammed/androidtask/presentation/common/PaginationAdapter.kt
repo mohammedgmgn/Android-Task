@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask.presentation
+package com.mahmoud.mohammed.androidtask.presentation.common
 
 import android.view.LayoutInflater
 import android.view.View

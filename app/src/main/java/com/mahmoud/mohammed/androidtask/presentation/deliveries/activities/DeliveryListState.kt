@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask.presentation
+package com.mahmoud.mohammed.androidtask.presentation.deliveries.activities
 
 import com.mahmoud.mohammed.androidtask.domain.DeliveryViewModel
 

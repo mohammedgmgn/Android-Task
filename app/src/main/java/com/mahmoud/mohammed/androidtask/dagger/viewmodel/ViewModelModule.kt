@@ -1,7 +1,7 @@
 package com.mahmoud.mohammed.androidtask.dagger.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.mahmoud.mohammed.androidtask.presentation.DeliveryListViewModel
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.viewmodels.DeliveryListViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module

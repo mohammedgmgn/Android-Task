@@ -1,6 +1,8 @@
-package com.mahmoud.mohammed.androidtask.presentation.activities.deliveries
+package com.mahmoud.mohammed.androidtask.presentation.deliveries.dagger
 
 import android.app.Activity
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.activities.DeliveriesActivity
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.dagger.DeliveriesActivitySubcomponent
 import dagger.Binds
 import dagger.Module
 import dagger.android.ActivityKey

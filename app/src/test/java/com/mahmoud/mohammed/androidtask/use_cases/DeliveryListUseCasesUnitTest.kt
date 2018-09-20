@@ -1,6 +1,6 @@
 package com.mahmoud.mohammed.androidtask.use_cases
 
-import com.mahmoud.mohammed.androidtask.data.DeliveryRepository
+import com.mahmoud.mohammed.androidtask.data.remote.DeliveryRepository
 import io.reactivex.Single
 import org.junit.Rule
 import org.junit.Test

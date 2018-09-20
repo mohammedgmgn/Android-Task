@@ -1,6 +1,7 @@
-package com.mahmoud.mohammed.androidtask.presentation.fragments
+package com.mahmoud.mohammed.androidtask.presentation.deliveries.dagger
 
 import androidx.fragment.app.Fragment
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.fragments.DeliveriesListFragment
 import dagger.Binds
 import dagger.Module
 import dagger.Subcomponent
@@ -19,5 +20,6 @@ abstract class DeliveryListFragmentModule {
     @Binds
     @IntoMap
     @FragmentKey(DeliveriesListFragment::class)
-    abstract fun bindDeliveryListFragmentInjectorFactory(builder: DeliveryListFragmentSubcomponent.Builder): AndroidInjector.Factory<out Fragment>
+    abstract fun bindDeliveryListFragmentInjectorFactory(builder: DeliveryListFragmentSubcomponent.Builder):
+            AndroidInjector.Factory<out Fragment>
 }
