@@ -47,7 +47,6 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     @Inject
     lateinit var imageLoader: ImageLoader
     private lateinit var deliveryListAdapter: DeliveryListAdapter
-    //  private val deliveryListAdapter by lazy { DeliveryListAdapter(imageLoader,) }
     private var isLoading = false
     private var isLastPage = false
     private lateinit var recyclerView: RecyclerView
