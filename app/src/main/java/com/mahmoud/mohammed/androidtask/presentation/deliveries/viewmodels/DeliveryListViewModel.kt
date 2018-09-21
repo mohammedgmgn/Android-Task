@@ -3,6 +3,7 @@ package com.mahmoud.mohammed.androidtask.presentation.deliveries.viewmodels
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mahmoud.mohammed.androidtask.base.BaseViewModel
 import com.mahmoud.mohammed.androidtask.domain.DeliveryListUseCase
 import io.reactivex.Scheduler
 import javax.inject.Inject
@@ -16,7 +17,7 @@ import com.mahmoud.mohammed.androidtask.presentation.deliveries.activities.*
 class DeliveryListViewModel @Inject constructor(private val deliveryListUseCases: DeliveryListUseCase,
                                                 @Named(SCHEDULER_IO) val subscribeOnScheduler: Scheduler,
                                                 @Named(SCHEDULER_MAIN_THREAD) val observeOnScheduler: Scheduler)
-    : ViewModel()
+    : BaseViewModel()
 {
 
     val stateLiveData =  MutableLiveData<DeliveryListState>()
@@ -39,12 +40,12 @@ class DeliveryListViewModel @Inject constructor(private val deliveryListUseCases
     }
     private fun obtainCurrentPageNum() = stateLiveData.value?.pageNum ?: 0
     private fun obtainCurrentData() = stateLiveData.value?.data ?: emptyList()
-    @SuppressLint("CheckResult")
     private fun getDeliveryList(page:Int) {
-       deliveryListUseCases.getDeliveryListBy(page)
+
+        addDisposable(deliveryListUseCases.getDeliveryListBy(page)
                 .subscribeOn(subscribeOnScheduler)
                 .observeOn(observeOnScheduler)
-                .subscribe(this::onDeliveryListReceived, this::onError)
+                .subscribe(this::onDeliveryListReceived, this::onError))
     }
     private fun onDeliveryListReceived(cryptoList: List<DeliveryViewModel>) {
         val currentCryptoList = obtainCurrentData().toMutableList()
