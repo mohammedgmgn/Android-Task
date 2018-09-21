@@ -22,7 +22,7 @@ Used Kotlin programming language  for Applying MVVM architecture with the follow
 
 ## Project Description
 
-First of all, I would like to show how I made the packages structure of the project For achieving The separation of concerns 
+I would like to show how I made the packages structure of the project For achieving The separation of concerns 
 
 <p align="center">
 <img src="image.PNG" alt="" width="200" height="200"/>
