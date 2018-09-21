@@ -20,6 +20,25 @@ Used Kotlin programming language  for Applying MVVM architecture with the follow
 3. Cacheing response.
 4. swipe to delete item
 
+## Project Description
+
+First of all, I would like to show how I made the packages structure of the project For achieving The separation of concerns 
+
+<p align="center">
+<img src="image.PNG" alt="" width="200" height="200"/>
+</p>
+
+- ## Presentation layer 
+    will include normal Activities , Fragments and ViewModels which will only handle rendering views and will follow MVVM pattern.
+
+- ## Domain layer 
+    With the Use Cases that  will include all business logic and interact between Data and Presentation layer by means of interface and     interactors. The objective is to make the domain layer independent of anything, so the business logic can be tested without 
+    any dependency to external components.
+
+- ##  Data layer 
+    With the Repositories.
+
+
 ### Used libraries: ###
 - [RxJava2](https://github.com/ReactiveX/RxJava)
 - [RxAndroid](https://github.com/ReactiveX/RxAndroid)
