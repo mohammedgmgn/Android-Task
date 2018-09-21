@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mahmoud.mohammed.androidtask.R
 import com.mahmoud.mohammed.androidtask.base.BaseFragment
+import com.mahmoud.mohammed.androidtask.common.DEFAULT_START_CACHE_SIZE
 import com.mahmoud.mohammed.androidtask.common.NetworkStateReceiver
 import com.mahmoud.mohammed.androidtask.common.getCachSize
 import com.mahmoud.mohammed.androidtask.common.hasNetwork
@@ -51,6 +53,7 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyView: TextView
     private var networkStateReceiver: NetworkStateReceiver? = null
+
     private val stateObserver = Observer<DeliveryListState> { state ->
         state?.let {
             isLastPage = state.loadedAllItems
@@ -70,6 +73,7 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
             }
         }
     }
+
 
     private fun handleErrorState() {
         showMessage(getString(R.string.failed_to_refresh))
@@ -115,7 +119,7 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
         observeViewModel()
         savedInstanceState?.let {
             viewModel.restoreDeliveryList()
-        } //?: viewModel.updateDeliveryList()
+        } ?: viewModel.updateDeliveryList()
     }
 
     private fun observeViewModel() {
@@ -129,11 +133,6 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
         initializeToolbar(view)
         initializeRecyclerView(view)
         initializeSwipeToRefreshView(view)
-      /*  if (hasNetwork(context!!)!!) {
-            handleConnectionMode()
-        } else {
-            handleDisconnectionMode()
-        }*/
         return view
     }
 
@@ -220,7 +219,11 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     }
 
     private fun handleDisconnectionMode() {
-        if (getCachSize(this.context!!)==0L) {
+        val cachSize=getCachSize(this.context!!)
+        Log.v("cachSize",cachSize.toString())
+        // to know if has cached data or not
+        if(cachSize<DEFAULT_START_CACHE_SIZE)
+        {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
         } else {

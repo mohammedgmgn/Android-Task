@@ -7,7 +7,7 @@ import android.net.NetworkInfo
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-
+val DEFAULT_START_CACHE_SIZE=6000L
 fun AppCompatActivity.replaceFragment(@IdRes where: Int, fragment: Fragment, tag: String) {
     supportFragmentManager.beginTransaction()
             .replace(where, fragment, tag)
