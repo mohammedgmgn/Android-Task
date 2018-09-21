@@ -2,6 +2,7 @@ package com.mahmoud.mohammed.androidtask.view_models
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.mahmoud.mohammed.androidtask.common.limitDeliveryListSizeArrayEmptyDeliveryViewModel
 import com.mahmoud.mohammed.androidtask.common.mock
 import com.mahmoud.mohammed.androidtask.common.whenever
 import com.mahmoud.mohammed.androidtask.domain.DeliveryListUseCase
@@ -9,6 +10,7 @@ import com.mahmoud.mohammed.androidtask.domain.DeliveryViewModel
 import com.mahmoud.mohammed.androidtask.presentation.deliveries.activities.DefaultState
 import com.mahmoud.mohammed.androidtask.presentation.deliveries.activities.DeliveryListState
 import com.mahmoud.mohammed.androidtask.presentation.deliveries.activities.LoadingState
+import com.mahmoud.mohammed.androidtask.presentation.deliveries.activities.PaginatingState
 import com.mahmoud.mohammed.androidtask.presentation.deliveries.viewmodels.DeliveryListViewModel
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -36,7 +38,7 @@ class DeliveryListUnitTest {
     }
 
     @Test
-    fun testCryptoList_updateCryptoList_LoadOnePage() {
+    fun testDeliveryList_updateCryptoList_LoadOnePage() {
         val response = arrayListOf(DeliveryViewModel())
         whenever(deliveryListUseCases.getDeliveryListBy(ArgumentMatchers.anyInt()))
                 .thenReturn(Single.just(response))
@@ -55,5 +57,30 @@ class DeliveryListUnitTest {
         }
     }
 
+
+    @Test
+    fun testDeliveryList_updateCryptoList_LoadPagination() {
+        val response = limitDeliveryListSizeArrayEmptyDeliveryViewModel()
+        whenever(deliveryListUseCases.getDeliveryListBy(ArgumentMatchers.anyInt()))
+                .thenReturn(Single.just(response))
+        viewmodel.stateLiveData.observeForever(observerState)
+        viewmodel.updateDeliveryList()
+        viewmodel.updateDeliveryList()
+        Mockito.verify(deliveryListUseCases, Mockito.times(2)).getDeliveryListBy(ArgumentMatchers.anyInt())
+
+        val expectedFinalResponse = mutableListOf<DeliveryViewModel>()
+        expectedFinalResponse.addAll(response)
+        expectedFinalResponse.addAll(response)
+
+        val argumentCaptor = ArgumentCaptor.forClass(DeliveryListState::class.java)
+        val expectedPaginatingState = PaginatingState(1, false, response)
+        val expectedFinalState = DefaultState(2, false, expectedFinalResponse)
+        argumentCaptor.run {
+            Mockito.verify(observerState, Mockito.times(5)).onChanged(capture())
+            val (initialState, loadingState, defaultState, paginatingState, finalState) = allValues
+            assertEquals(expectedPaginatingState, paginatingState)
+            assertEquals(expectedFinalState, finalState)
+        }
+    }
 
 }
