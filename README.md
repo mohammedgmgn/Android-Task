@@ -8,11 +8,11 @@
 
 ## Technical Notes:
 
-Used Kotlin programming language  for Applying the following topics  
+Used Kotlin programming language  for Applying MVVM architecture with the following topics  
 - Clean architecture
 - Test-driven development
 - Dagger2- RxJava2
-- ViewModels LiveData
+- ViewModels-LiveData
 
  ## Features:
 1. Displaying list of items with its details 
