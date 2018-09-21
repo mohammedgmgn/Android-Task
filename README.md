@@ -2,7 +2,7 @@
  - [Youtube Video Demo](https://youtu.be/zDnjU8Ew0yo)
  
 # How to use ?
-- you need to provide a Google Maps API key in google_maps_api.xml file 
+- you need to provide your Google Maps API key in google_maps_api.xml file 
    
 
 
