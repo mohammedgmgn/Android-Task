@@ -6,6 +6,8 @@ import io.reactivex.Single
 
 const val LIMIT_DELIVERY_LIST = 20
 class DeliveryListInteractor(private val deliveryRepository: DeliveryRepository) : DeliveryListUseCase {
+
+
     override fun getDeliveryListBy(page: Int): Single<List<DeliveryViewModel>> {
         return deliveryRepository.getDeliveryList(page, LIMIT_DELIVERY_LIST)
                 .map {

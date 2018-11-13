@@ -16,6 +16,7 @@ import javax.inject.Inject
 class DeliveriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
     val deliveryListFragment by lazy { newDeliveriesListFragment() }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {

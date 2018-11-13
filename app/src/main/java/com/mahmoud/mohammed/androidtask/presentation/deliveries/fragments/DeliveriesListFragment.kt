@@ -1,5 +1,6 @@
 package com.mahmoud.mohammed.androidtask.presentation.deliveries.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -44,9 +45,13 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: DeliveryListViewModel
+
     @Inject
     lateinit var imageLoader: ImageLoader
+
+    @Inject
     private lateinit var deliveryListAdapter: DeliveryListAdapter
+
     private var isLoading = false
     private var isLastPage = false
     private lateinit var recyclerView: RecyclerView
@@ -139,6 +144,7 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
         view.toolbar.title = getString(R.string.main_title)
     }
 
+    @SuppressLint("WrongConstant")
     private fun initializeRecyclerView(view: View) {
         deliveryListAdapter = DeliveryListAdapter(imageLoader) { delivery, view ->
             navigateToDeliveriesDetailsScreen(delivery)
