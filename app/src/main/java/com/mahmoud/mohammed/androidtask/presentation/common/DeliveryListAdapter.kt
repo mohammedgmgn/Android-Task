@@ -13,59 +13,42 @@ import kotlinx.android.synthetic.main.delivery_list_item.view.*
 
 class DeliveryListAdapter constructor(private val imageLoader: ImageLoader) : PaginationAdapter<DeliveryModel>() {
     private lateinit var onDeliverySelected: (DeliveryModel, View) -> Unit
-
     fun setOnItemSelectedListener(onDeliverySelected: (DeliveryModel, View) -> Unit) {
         this.onDeliverySelected = onDeliverySelected;
     }
-
     override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.delivery_list_item, parent, false)
         return DeliveryViewHolder(view)
     }
-
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (holder is DeliveryViewHolder) holder.bind(dataList[position], imageLoader, onDeliverySelected)
     }
-
     fun removeAt(position: Int) {
         dataList.removeAt(position)
         notifyItemRemoved(position)
     }
-
     override fun addLoadingViewFooter() {
         addLoadingViewFooter(emptyDeliveryViewModel)
     }
-
     fun updateData(newData: List<DeliveryModel>) {
         val fromIndex = dataList.size
         dataList = newData.toMutableList()
         notifyItemRangeInserted(fromIndex, newData.size)
     }
-
     fun getListSize(): Int {
         return dataList.size
     }
-
     class DeliveryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         fun bind(item: DeliveryModel, imageLoader: ImageLoader, listener:
         (DeliveryModel, View) -> Unit) {
-
             itemView.apply {
-
                 item.imageUrl.let {
                     imageLoader.load(it, delivery_image)
                 }
                 description_tv_id.text = item.description
                 address_tv_id.text = item.address
                 setOnClickListener { listener(item, itemView) }
-
             }
-
         }
-
-
     }
-
-
 }

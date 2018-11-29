@@ -4,10 +4,14 @@ import android.os.Parcel
 import android.os.Parcelable
 
 
-data class DeliveryModel(val id: Int,
-                         val description: String,
-                         val imageUrl: String,
-                         val lat: Double, val lng: Double,val address:String
+typealias DeliveryId=Int
+typealias DescriptionContent=String
+typealias ImagePath=String
+typealias AddressInfo=String
+data class DeliveryModel(val id: DeliveryId,
+                         val description: DescriptionContent,
+                         val imageUrl: ImagePath,
+                         val lat: Double, val lng: Double,val address:AddressInfo
 ) : Parcelable {
     constructor() : this(0, "", "", 0.0, 0.0,"")
     constructor(source: Parcel) : this(

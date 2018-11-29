@@ -7,15 +7,16 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 const val LIMIT_DELIVERY_LIST = 20
- class DeliveryListInteractor (private val deliveryRepository: DeliveryRepository) : DeliveryListUseCase {
+// applying Delegate in kotlin
+class DeliveryListInteractor(deliveryRepository: DeliveryRepository) : DeliveryRepository by deliveryRepository, DeliveryListUseCase {
 
     override fun getDeliveryListBy(page: Int): Single<List<DeliveryModel>> {
-        return deliveryRepository.getDeliveryList(page, LIMIT_DELIVERY_LIST).map {
-            deliveries -> deliveries.map(deliveryViewModelMapper)}
+        return getDeliveryList(page, LIMIT_DELIVERY_LIST).map { deliveries -> deliveries.map(deliveryViewModelMapper) }
     }
-    val deliveryViewModelMapper: (Delivery) -> DeliveryModel = {
-        delivery   -> DeliveryModel(delivery.id, delivery.description, delivery.imageUrl, delivery.location.lat,
-            delivery.location.lng, delivery.location.address)
+
+    val deliveryViewModelMapper: (Delivery) -> DeliveryModel = { delivery ->
+        DeliveryModel(delivery.id, delivery.description, delivery.imageUrl, delivery.location.lat,
+                delivery.location.lng, delivery.location.address)
     }
 
 }
