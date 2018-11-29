@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask.dagger
+package com.mahmoud.mohammed.androidtask.dagger.modules
 
 import android.content.Context
 import com.mahmoud.mohammed.androidtask.common.hasNetwork
@@ -18,21 +18,15 @@ import javax.inject.Singleton
 private const val BASE_URL = "https://mock-api-mobile.dev.lalamove.com/"
 
 @Module
-class NetworkModule constructor(context:Context)   {
-    private val appContext = context.applicationContext
+class NetworkModule  {
 
     @Singleton
     @Provides
-    fun provideAppContext(): Context {
-        return appContext
-    }
+    fun providesDeliveryApi(retrofit: Retrofit):DeliveryApi = retrofit.create(DeliveryApi::class.java)
 
-
+    @Singleton
     @Provides
-    fun providesDeliveryApi(retrofit: Retrofit) = retrofit.create(DeliveryApi::class.java)
-
-    @Provides
-    fun providesRetrofit(okHttpClient: OkHttpClient) =
+    fun providesRetrofit(okHttpClient: OkHttpClient):Retrofit =
             Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -41,6 +35,7 @@ class NetworkModule constructor(context:Context)   {
                     .build()
 
 
+    @Singleton
     @Provides
     fun providesOkHttpClient(context:Context): OkHttpClient {
        /* val logging = HttpLoggingInterceptor().apply {

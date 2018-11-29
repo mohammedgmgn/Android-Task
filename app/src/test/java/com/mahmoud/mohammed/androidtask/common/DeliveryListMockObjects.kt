@@ -1,3 +1,4 @@
+/*
 package com.mahmoud.mohammed.androidtask.common
 
 import com.mahmoud.mohammed.androidtask.data.model.Delivery
@@ -20,4 +21,4 @@ fun deliveryToPOJOmodel() =
 
 fun deliveryViewModelFrom(delivery:Delivery) =
         DeliveryViewModel(delivery.id, delivery.description, delivery.imageUrl, delivery.location.lat,
-                delivery.location.lng, delivery.location.address)
+                delivery.location.lng, delivery.location.address)*/
