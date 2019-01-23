@@ -4,7 +4,6 @@ import com.mahmoud.mohammed.androidtask.data.remote.DeliveryRepository
 import com.mahmoud.mohammed.androidtask.data.model.Delivery
 import com.mahmoud.mohammed.androidtask.data.model.DeliveryModel
 import io.reactivex.Single
-import javax.inject.Inject
 
 const val LIMIT_DELIVERY_LIST = 20
 // applying Delegate in kotlin
@@ -15,8 +14,7 @@ class DeliveryListInteractor(deliveryRepository: DeliveryRepository) : DeliveryR
     }
 
     val deliveryViewModelMapper: (Delivery) -> DeliveryModel = { delivery ->
-        DeliveryModel(delivery.id, delivery.description, delivery.imageUrl, delivery.location.lat,
-                delivery.location.lng, delivery.location.address)
+        DeliveryModel(delivery.id, delivery.description, delivery.imageUrl, delivery.location.lat, delivery.location.lng, delivery.location.address)
     }
 
 }

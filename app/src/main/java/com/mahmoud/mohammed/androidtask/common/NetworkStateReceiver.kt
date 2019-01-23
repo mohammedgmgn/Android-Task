@@ -22,7 +22,7 @@ class NetworkStateReceiver(context: Context) : BroadcastReceiver() {
     private fun checkStateChanged(): Boolean {
         val prev = mConnected
         val activeNetwork = mManager.activeNetworkInfo
-        mConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
+        mConnected = activeNetwork != null && activeNetwork.isConnected
         return prev != mConnected
     }
 
