@@ -64,6 +64,7 @@ class NetworkModule  {
     }
 
 
+
     @Singleton
     @Provides
     fun provideImageLoader(context: Context) : ImageLoader {
