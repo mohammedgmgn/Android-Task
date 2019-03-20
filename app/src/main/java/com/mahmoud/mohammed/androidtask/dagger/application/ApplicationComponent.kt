@@ -1,31 +1,31 @@
 package com.mahmoud.mohammed.androidtask.dagger.application
 
+import android.app.Application
 import com.mahmoud.mohammed.androidtask.DeliveryApplication
+import com.mahmoud.mohammed.androidtask.dagger.ActivityBuilder
 import com.mahmoud.mohammed.androidtask.dagger.NetworkModule
-import com.mahmoud.mohammed.androidtask.dagger.RepositoryModule
-import com.mahmoud.mohammed.androidtask.dagger.UseCasesModule
-import com.mahmoud.mohammed.androidtask.dagger.viewmodel.ViewModelFactoryModule
-import com.mahmoud.mohammed.androidtask.dagger.viewmodel.ViewModelModule
-import com.mahmoud.mohammed.androidtask.presentation.deliveries.dagger.DeliveriesActivityModule
-import com.mahmoud.mohammed.androidtask.presentation.detail.dagger.DeliveryDetailsModule
+import com.mahmoud.mohammed.androidtask.data.remote.DeliveryApi
+import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 
 @Singleton
-@Component(modules = arrayOf(
-        ApplicationModule::class,
-        AndroidSupportInjectionModule::class,
-        ViewModelFactoryModule::class,
-        NetworkModule::class,
-        RepositoryModule::class,
-        UseCasesModule::class,
-        ViewModelModule::class,
-        DeliveriesActivityModule::class
-        , DeliveryDetailsModule::class
+@Component(modules = [AndroidInjectionModule::class,
+    ActivityBuilder::class,
+    AndroidSupportInjectionModule::class
+    , ApplicationModule::class, NetworkModule::class])
 
-))
 interface ApplicationComponent {
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(application: Application): Builder
+        fun build(): ApplicationComponent
+    }
+
     fun inject(app: DeliveryApplication)
+
 }

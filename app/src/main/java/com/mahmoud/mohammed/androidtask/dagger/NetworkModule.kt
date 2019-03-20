@@ -18,29 +18,24 @@ import javax.inject.Singleton
 private const val BASE_URL = "https://mock-api-mobile.dev.lalamove.com/"
 
 @Module
-class NetworkModule constructor(context:Context)   {
-    private val appContext = context.applicationContext
+class NetworkModule  {
 
     @Singleton
     @Provides
-    fun provideAppContext(): Context {
-        return appContext
-    }
+    fun providesDeliveryApi(retrofit: Retrofit):DeliveryApi = retrofit.create(DeliveryApi::class.java)
 
-
+    @Singleton
     @Provides
-    fun providesDeliveryApi(retrofit: Retrofit) = retrofit.create(DeliveryApi::class.java)
-
-    @Provides
-    fun providesRetrofit(okHttpClient: OkHttpClient) =
-            Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okHttpClient)
-                    .build()
+    fun providesRetrofit(okHttpClient: OkHttpClient):Retrofit =
+    Retrofit.Builder()
+    .baseUrl(BASE_URL)
+    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+    .addConverterFactory(GsonConverterFactory.create())
+    .client(okHttpClient)
+    .build()
 
 
+    @Singleton
     @Provides
     fun providesOkHttpClient(context:Context): OkHttpClient {
        /* val logging = HttpLoggingInterceptor().apply {
@@ -55,9 +50,12 @@ class NetworkModule constructor(context:Context)   {
                     var request = chain.request()
                     request = if (hasNetwork(context)!!)
                         // setting  5 Mb Cabacity
-                        request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
+                        request.newBuilder()
+                                .header("Cache-Control", "public, max-age=" + 5).build()
                     else
-                        request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()
+                        request.newBuilder()
+                                .header("Cache-Control",
+                                        "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()
                     chain.proceed(request)
                 }
                 .build()

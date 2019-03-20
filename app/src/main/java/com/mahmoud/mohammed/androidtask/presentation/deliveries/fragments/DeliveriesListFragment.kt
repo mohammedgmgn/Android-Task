@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mahmoud.mohammed.androidtask.DeliveryApplication
 import com.mahmoud.mohammed.androidtask.R
 import com.mahmoud.mohammed.androidtask.base.BaseFragment
 import com.mahmoud.mohammed.androidtask.common.DEFAULT_START_CACHE_SIZE
@@ -24,7 +25,8 @@ import com.mahmoud.mohammed.androidtask.common.NetworkStateReceiver
 import com.mahmoud.mohammed.androidtask.common.getCachSize
 import com.mahmoud.mohammed.androidtask.common.hasNetwork
 import com.mahmoud.mohammed.androidtask.common.imagehelper.ImageLoader
-import com.mahmoud.mohammed.androidtask.domain.DeliveryViewModel
+import com.mahmoud.mohammed.androidtask.dagger.ViewModelFactory
+import com.mahmoud.mohammed.androidtask.data.model.DeliveryModel
 import com.mahmoud.mohammed.androidtask.domain.LIMIT_DELIVERY_LIST
 import com.mahmoud.mohammed.androidtask.presentation.common.DeliveryListAdapter
 import com.mahmoud.mohammed.androidtask.presentation.common.PaginationScrollListener
@@ -36,22 +38,16 @@ import kotlinx.android.synthetic.main.fragment_deliveries_list.*
 import kotlinx.android.synthetic.main.fragment_deliveries_list.view.*
 import javax.inject.Inject
 
-fun newDeliveriesListFragment() = DeliveriesListFragment()
 val DELIVERIES_LIST_FRAGMENT_TAG = DeliveriesListFragment::class.java.name
 
 class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkStateReceiverListener {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private lateinit var viewModel: DeliveryListViewModel
-
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     @Inject
     lateinit var imageLoader: ImageLoader
-
-    @Inject
-    private lateinit var deliveryListAdapter: DeliveryListAdapter
-
+    lateinit var deliveryListAdapter: DeliveryListAdapter
     private var isLoading = false
     private var isLastPage = false
     private lateinit var recyclerView: RecyclerView
@@ -99,7 +95,7 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
     }
 
 
-    private fun handleDefaultState(data: List<DeliveryViewModel>) {
+    private fun handleDefaultState(data: List<DeliveryModel>) {
         isLoading = false
         swipeRefreshLayout.isRefreshing = false
         updateListData(data)
@@ -107,19 +103,18 @@ class DeliveriesListFragment : BaseFragment(), NetworkStateReceiver.NetworkState
 
     }
 
-    private fun updateListData(data: List<DeliveryViewModel>) {
+    private fun updateListData(data: List<DeliveryModel>) {
         deliveryListAdapter.updateData(data)
     }
 
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidSupportInjection.inject(this)
+        viewModel = activity?.run {
+            ViewModelProviders.of(this, viewModelFactory).get(DeliveryListViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(DeliveryListViewModel::class.java)
         observeViewModel()
         savedInstanceState?.let {
             viewModel.restoreDeliveryList()
