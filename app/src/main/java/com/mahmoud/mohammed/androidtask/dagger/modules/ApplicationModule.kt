@@ -1,4 +1,4 @@
-package com.mahmoud.mohammed.androidtask.dagger.application
+package com.mahmoud.mohammed.androidtask.dagger.modules
 
 import android.app.Application
 import android.content.Context
